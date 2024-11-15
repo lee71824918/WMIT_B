@@ -63,14 +63,27 @@ const storage = multer.diskStorage({
             return fs.statSync(path.join(uploadsDir, b)).mtime.getTime() - fs.statSync(path.join(uploadsDir, a)).mtime.getTime();
         })[0];
 
-        // 최신 이미지 정보 반환
+        // 최신 이미지 파일 경로
+        const latestFilePath = path.join(uploadsDir, latestFile);
+        
+       /* // 최신 이미지 정보 반환
         const imageUrl = `${apiUrl}/uploads/${latestFile}`;
         console.log("가장 마지막 파일 보냄")
         return res.json({ image_name: latestFile, image_url: imageUrl, timestamp: fs.statSync(path.join(uploadsDir, latestFile)).mtime.toISOString() });
+     });
     });
-  });
+    */
+        // 최신 이미지를 파일로 보내기
+        console.log("가장 마지막 파일 보내기:", latestFile);
+         res.sendFile(latestFilePath, (err) => {
+         if (err) {
+            console.error("파일 전송 중 오류 발생:", err);
+             return res.status(500).send("파일 전송에 실패했습니다.");
+          }
+        }) 
 
-
+    })
+  })    
 
 
 
@@ -86,4 +99,4 @@ const storage = multer.diskStorage({
 
 app.listen(PORT, () => {
     console.log(`${PORT}에서 실행 중입니다.`);
-  });
+  })
