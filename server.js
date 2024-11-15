@@ -8,7 +8,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: ['http://localhost:3000',"https://wmit-f.vercel.app/"] // 특정 도메인만 허용
+  origin: ['http://localhost:3000',"https://wmit-kraquk4ze-lee71824918s-projects.vercel.app/"] // 특정 도메인만 허용
 }))
 
 const apiUrl = "https://lovely-slug-asaa12-08e720ae.koyeb.app"
