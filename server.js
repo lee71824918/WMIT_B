@@ -8,7 +8,7 @@ const PORT = 4001;
 
 
 app.use(cors({
-  origin: ['http://localhost:3000',] // 특정 도메인만 허용
+  origin: ['http://localhost:3000',"dd"] // 특정 도메인만 허용
 }))
 
 
