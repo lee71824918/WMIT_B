@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const cors = require("cors")
 const app = express();
-//const PORT = 4001;
+const PORT = process.env.PORT || 4001;
 
 
 app.use(cors({
