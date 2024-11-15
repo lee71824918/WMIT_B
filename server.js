@@ -33,6 +33,8 @@ const storage = multer.diskStorage({
     if (!req.file){
         return res.statusCode(400).json({ error: "파일이 업로드 되지않음" })
     }
+    
+    console.log("이미지 파일 업로드  성공 api")
 
     const imageUrl = `${apiUrl}/uploads/${req.file.filename}`;
     return res.json({ message: "파일 업로드 성공", imageUrl: imageUrl });
@@ -46,11 +48,13 @@ const storage = multer.diskStorage({
     // 업로드 폴더의 파일 목록 가져오기
     fs.readdir(uploadsDir, (err, files) => {
         if (err) {
+            console.log("최신파일 업로드 실패")
             return res.status(500).json({ error: "이미지 파일을 불러오는 데 실패했습니다." });
         }
 
         // 파일 목록이 없다면
         if (files.length === 0) {
+            console.log("최신파일 없음")
             return res.status(404).json({ error: "업로드된 이미지가 없습니다." });
         }
 
@@ -61,6 +65,7 @@ const storage = multer.diskStorage({
 
         // 최신 이미지 정보 반환
         const imageUrl = `${apiUrl}/uploads/${latestFile}`;
+        console.log("가장 마지막 파일 보냄")
         return res.json({ image_name: latestFile, image_url: imageUrl, timestamp: fs.statSync(path.join(uploadsDir, latestFile)).mtime.toISOString() });
     });
   });
