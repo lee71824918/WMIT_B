@@ -4,14 +4,14 @@ const path = require("path");
 const fs = require("fs");
 const cors = require("cors")
 const app = express();
-const PORT = 4001;
+//const PORT = 4001;
 
 
 app.use(cors({
-  origin: ['http://localhost:3000',"dd"] // 특정 도메인만 허용
+  origin: ['http://localhost:3000',"https://wmit-f.vercel.app/"] // 특정 도메인만 허용
 }))
 
-
+const apiUrl = "https://lovely-slug-asaa12-08e720ae.koyeb.app"
 
 
 // 파일 저장 위치 및 파일 이름 설정
@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
         return res.statusCode(400).json({ error: "파일이 업로드 되지않음" })
     }
 
-    const imageUrl = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+    const imageUrl = `${apiUrl}/uploads/${req.file.filename}`;
     return res.json({ message: "파일 업로드 성공", imageUrl: imageUrl });
 
   })
@@ -60,7 +60,7 @@ const storage = multer.diskStorage({
         })[0];
 
         // 최신 이미지 정보 반환
-        const imageUrl = `http://localhost:${PORT}/uploads/${latestFile}`;
+        const imageUrl = `${apiUrl}/uploads/${latestFile}`;
         return res.json({ image_name: latestFile, image_url: imageUrl, timestamp: fs.statSync(path.join(uploadsDir, latestFile)).mtime.toISOString() });
     });
   });
@@ -80,5 +80,5 @@ const storage = multer.diskStorage({
 
 
 app.listen(PORT, () => {
-    console.log(`서버가 http://localhost:${PORT}에서 실행 중입니다.`);
+    console.log(`${PORT}에서 실행 중입니다.`);
   });
