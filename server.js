@@ -15,8 +15,6 @@ app.use(cors({
 const apiUrl = "http://localhost:4001"
 
 const uploadsDir = path.join(__dirname, "uploads");
-app.use("/uploads", express.static("uploads"))
-
 
 
 
@@ -79,23 +77,19 @@ const storage = multer.diskStorage({
         }
 
         // 파일 목록을 시간순으로 정렬 (최신 파일이 첫 번째로 오게)
-
-        // const latestFile = files.sort((a, b) => {
-        //     return fs.statSync(path.join(uploadsDir, b)).mtime.getTime() - fs.statSync(path.join(uploadsDir, a)).mtime.getTime();
-        // })[0];
-
         const latestFile = files
         .sort((a, b) => b.localeCompare(a))  // 문자열을 내림차순으로 비교
         .shift(); // 첫 번째 파일이 가장 최신 파일
         console.log(latestFile)
 
 
-        // 최신 이미지 파일 경로
+        // 최신 이미지 파일 경로         uploads 폴더 + 최신파일 주소
         const latestFilePath = path.join(uploadsDir, latestFile);
         
         // 최신 이미지를 파일로 보내기
         console.log("가장 마지막 파일 보내기:", latestFile);
-         res.sendFile(latestFilePath, (err) => {
+        
+        res.sendFile(latestFilePath, (err) => {  // 경로에 있는 이미지 파일을 전송
          if (err) {
             console.error("파일 전송 중 오류 발생:", err);
              return res.status(500).send("파일 전송에 실패했습니다.");
@@ -104,15 +98,6 @@ const storage = multer.diskStorage({
 
     })
   })    
-
-
-
-
-
-
-
-
-
 
 
 
