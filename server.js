@@ -9,10 +9,9 @@ const PORT = process.env.PORT || 4001;
 
 
 app.use(cors({
-  origin: ['http://localhost:3000'] // 특정 도메인만 허용
+  origin: ['http://localhost:3000','https://wmit-f.vercel.app' ] // 특정 도메인만 허용
 }))
 
-const apiUrl = "http://localhost:4001"
 
 const uploadsDir = path.join(__dirname, "uploads");
 
@@ -88,7 +87,7 @@ const storage = multer.diskStorage({
         
         // 최신 이미지를 파일로 보내기
         console.log("가장 마지막 파일 보내기:", latestFile);
-        
+
         res.sendFile(latestFilePath, (err) => {  // 경로에 있는 이미지 파일을 전송
          if (err) {
             console.error("파일 전송 중 오류 발생:", err);
