@@ -94,9 +94,48 @@ const storage = multer.diskStorage({
              return res.status(500).send("파일 전송에 실패했습니다.");
           }
         }) 
+        
 
     })
   })    
+
+
+
+  // 등록시간 반환  api
+  app.get("/time", (req, res) => {
+    
+    fs.readdir(uploadsDir, (err, files) => {
+      if (err) {
+          console.log("최신파일 업로드 실패")
+          return res.status(500).json({ error: "이미지 파일을 불러오는 데 실패했습니다." });
+      }
+
+      // 파일 목록을 시간순으로 정렬 (최신 파일이 첫 번째로 오게)
+      const latestFile = files
+      .sort((a, b) => b.localeCompare(a))  // 문자열을 내림차순으로 비교
+      .shift(); // 첫 번째 파일이 가장 최신 파일
+      
+
+      // 시간 정의
+      const dateString = latestFile.split('_')[0]; // '20241115'
+      const timeString = latestFile.split('_')[1].split('.')[0]; // '175000'
+
+      const year = dateString.slice(0, 4);
+      const month = dateString.slice(4, 6);
+      const day = dateString.slice(6, 8);
+      const hour = timeString.slice(0, 2);
+      const minute = timeString.slice(2, 4);
+      const second = timeString.slice(4, 6);
+
+      const imagetime = `${year}-${month}-${day}_${hour}:${minute}:${second}`;
+      
+      console.log('업로드 시간 변환: '+ imagetime)  //예시 2024-11-18_14:20:45
+
+      res.send(imagetime)
+
+    })  
+  })
+
 
 
 
